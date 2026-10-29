@@ -27,3 +27,30 @@ def verificar_usuario(usuario, contrasena):
             cursor.close()
         if conexion.is_connected():
             conexion.close()
+def login():
+    st.title("Inicio de sesión")
+    usuario = st.text_input("Usuario")
+    contrasena = st.text_input(
+        "Contraseña",
+        type="password"
+    )
+    if st.button("Iniciar sesión"):
+        if usuario.strip() == "" or contrasena.strip() == "":
+            st.warning(
+                "Ingrese su usuario y contraseña."
+            )
+        else:
+            resultado = verificar_usuario(
+                usuario,
+                contrasena
+            )
+            if resultado:
+                st.session_state["sesion_iniciada"] = True
+                st.session_state["usuario"] = usuario
+                st.success(
+                    "Sesión iniciada correctamente."
+                )
+                st.rerun()
+            else:
+                st.error(
+                    "Usuario o contraseña incorrectos."
